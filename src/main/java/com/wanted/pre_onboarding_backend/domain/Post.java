@@ -41,4 +41,11 @@ public class Post {
         this.content = content;
         this.skill = skill;
     }
+
+    public void update(String position, int signingBonus, String content, String skill) {
+        this.position = position;
+        this.signingBonus = signingBonus;
+        this.content = content;
+        this.skill = skill;
+    }
 }

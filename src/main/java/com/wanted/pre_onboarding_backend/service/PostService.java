@@ -4,6 +4,7 @@ import com.wanted.pre_onboarding_backend.domain.Company;
 import com.wanted.pre_onboarding_backend.domain.Post;
 import com.wanted.pre_onboarding_backend.dto.PostRequestDto;
 import com.wanted.pre_onboarding_backend.repository.PostRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,5 +22,13 @@ public class PostService {
 
         Post post = postRepository.save(postRequestDto.toEntity(company));
         return post.getPostId();
+    }
+
+    // 2. 채용공고 수정
+    @Transactional
+    public Long update(Long postId, PostRequestDto dto) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("해당 채용공고를 찾을 수 없습니다."));
+        post.update(dto.getPosition(), dto.getSigningBonus(), dto.getContent(), dto.getSkill());
+        return postId;
     }
 }
