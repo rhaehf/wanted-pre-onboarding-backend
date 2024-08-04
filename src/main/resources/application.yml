@@ -15,7 +15,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect # MySQL 8버전 이상시 이걸 사용
     open-in-view: false # 웹 요청이 완료될 때까지 동일한 EntityManager를 갖도록 해줌 / 성능과 확장상 면에서 안좋다고 해서 false로 설정
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
 
     defer-datasource-initialization: true # 스프링부트 2.5 이상부터 초기 sql 데이터 입력시 필요함
 
