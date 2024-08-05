@@ -30,6 +30,13 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(postService.update(postId, dto));
     }
 
+    // 3. 채용공고 삭제
+    @DeleteMapping("/posts/{id}")
+    public ResponseEntity deletePosts(@PathVariable(name = "id") Long postId) {
+        postService.delete(postId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     // 4. 채용공고 목록 전체 조회
     @GetMapping("/posts")
     public ResponseEntity<List<PostResponseDto>> findAll() {

@@ -36,6 +36,13 @@ public class PostService {
         return postId;
     }
 
+    // 3. 채용공고 삭제
+    @Transactional
+    public void delete(Long postId){
+        Post post = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("해당 채용공고를 찾을 수 없습니다."));
+        postRepository.delete(post);
+    }
+
     // 4. 채용공고 목록 전체 조회
     @Transactional
     public List<PostResponseDto> findAll() {
