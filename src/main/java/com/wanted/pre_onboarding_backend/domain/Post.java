@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Post {
 
-    @Id
+    @Id // PK
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id", updatable = false)
     private Long postId; // 채용공고_id
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
-    private Company company; // 회사_id 를 가져오기 위한 객체
+    @ManyToOne(fetch = FetchType.LAZY) // 일대다 연관관계 매핑
+    @JoinColumn(name = "company_id") // FK
+    private Company company;
 
     @Column(name = "position")
     private String position; // 채용포지션

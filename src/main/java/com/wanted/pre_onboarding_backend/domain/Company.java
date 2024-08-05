@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Company {
 
-    @Id
+    @Id // PK
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "company_id", updatable = false)
     private Long companyId; // 회사_id

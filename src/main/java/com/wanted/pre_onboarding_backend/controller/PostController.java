@@ -19,14 +19,16 @@ public class PostController {
 
     // 1. 채용공고 등록
     @PostMapping("/posts")
+    // @Valid를 통해서 companyId가 @NotNull인지 검사함
     public ResponseEntity savePosts(@RequestBody @Valid PostRequestDto postRequestDto) {
-        // body에 담는 데이터는 등록한 채용공고의 id이다.
+        // body에 등록한 채용공고의 id를 담아 반환함
         return ResponseEntity.status(HttpStatus.OK).body(postService.save(postRequestDto));
     }
 
     // 2. 채용공고 수정
     @PatchMapping("/posts/{id}")
     public ResponseEntity updatePosts(@PathVariable(name = "id") Long postId, @RequestBody PostRequestDto dto) {
+        // body에 등록한 채용공고의 id를 담아 반환함
         return ResponseEntity.status(HttpStatus.OK).body(postService.update(postId, dto));
     }
 
@@ -43,7 +45,7 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(postService.findAll());
     }
 
-    // 4-2. 채용공고 검색
+    // 4-2. 채용공고 검색 (채용포지션으로)
     @GetMapping("/posts/search")
     public ResponseEntity<List<PostResponseDto>> searchPosts(@RequestParam(name = "position") String keyword) {
         return ResponseEntity.status(HttpStatus.OK).body(postService.searchByPosition(keyword));

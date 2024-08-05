@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class PostRequestDto {
 
-    @NotNull
+    @NotNull // null을 허용하지 않음, ""과 " "은 혀용함
     private Long companyId; // 회사_id
 
     private String position; // 채용포지션
