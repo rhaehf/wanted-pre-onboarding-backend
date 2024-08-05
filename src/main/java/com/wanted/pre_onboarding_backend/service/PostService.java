@@ -4,6 +4,7 @@ import com.wanted.pre_onboarding_backend.domain.Company;
 import com.wanted.pre_onboarding_backend.domain.Post;
 import com.wanted.pre_onboarding_backend.dto.PostRequestDto;
 import com.wanted.pre_onboarding_backend.dto.PostResponseDto;
+import com.wanted.pre_onboarding_backend.repository.CompanyRepository;
 import com.wanted.pre_onboarding_backend.repository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -17,15 +18,20 @@ import java.util.stream.Collectors;
 @Service
 public class PostService {
     private final PostRepository postRepository;
+    private final CompanyRepository companyRepository;
 
     // 1. 채용공고 등록
     @Transactional
     public Long save(PostRequestDto postRequestDto) {
         Long companyId = postRequestDto.getCompanyId();
-        Company company = new Company(companyId);
 
-        Post post = postRepository.save(postRequestDto.toEntity(company));
-        return post.getPostId();
+        if (companyId != null) {
+            Company company = companyRepository.findById(companyId).orElseThrow(() -> new EntityNotFoundException("해당 companyId로 회사를 찾을 수 없습니다."));
+            Post post = postRepository.save(postRequestDto.toEntity(company));
+            return post.getPostId();
+        } else {
+            throw new IllegalStateException("입력한 데이터가 누락되어 채용공고를 등록할 수 없습니다.");
+        }
     }
 
     // 2. 채용공고 수정

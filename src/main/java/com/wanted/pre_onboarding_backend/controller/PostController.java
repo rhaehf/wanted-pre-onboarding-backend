@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,8 +23,12 @@ public class PostController {
     @PostMapping("/posts")
     // @Valid를 통해서 companyId가 @NotNull인지 검사함
     public ResponseEntity savePosts(@RequestBody @Valid PostRequestDto postRequestDto) {
+        Long postId = postService.save(postRequestDto);
+
         // body에 등록한 채용공고의 id를 담아 반환함
-        return ResponseEntity.status(HttpStatus.OK).body(postService.save(postRequestDto));
+        Map<String, Long> response = new HashMap<>();
+        response.put("postId", postId);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 2. 채용공고 수정
