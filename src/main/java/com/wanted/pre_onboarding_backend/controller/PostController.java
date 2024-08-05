@@ -1,12 +1,15 @@
 package com.wanted.pre_onboarding_backend.controller;
 
 import com.wanted.pre_onboarding_backend.dto.PostRequestDto;
+import com.wanted.pre_onboarding_backend.dto.PostResponseDto;
 import com.wanted.pre_onboarding_backend.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,5 +28,11 @@ public class PostController {
     @PatchMapping("/posts/{id}")
     public ResponseEntity updatePosts(@PathVariable(name = "id") Long postId, @RequestBody PostRequestDto dto) {
         return ResponseEntity.status(HttpStatus.OK).body(postService.update(postId, dto));
+    }
+
+    // 4. 채용공고 목록 전체 조회
+    @GetMapping("/posts")
+    public ResponseEntity<List<PostResponseDto>> findAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(postService.findAll());
     }
 }
