@@ -37,9 +37,15 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    // 4. 채용공고 목록 전체 조회
+    // 4-1. 채용공고 목록 전체 조회
     @GetMapping("/posts")
-    public ResponseEntity<List<PostResponseDto>> findAll() {
+    public ResponseEntity<List<PostResponseDto>> findAllPosts() {
         return ResponseEntity.status(HttpStatus.OK).body(postService.findAll());
+    }
+
+    // 4-2. 채용공고 검색
+    @GetMapping("/posts/search")
+    public ResponseEntity<List<PostResponseDto>> searchPosts(@RequestParam(name = "position") String keyword) {
+        return ResponseEntity.status(HttpStatus.OK).body(postService.searchByPosition(keyword));
     }
 }
