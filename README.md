@@ -47,7 +47,7 @@
 ![ERD](src/main/resources/image/ERD.png)</br>
 
 ## 5. API 명세서
-###[노션 링크 (각 기능별로 실행 사진이 첨부되어있음)](https://jinhui-portfolio.notion.site/API-90e049d731e44579aa35f96eb38c78a9?pvs=4)
+#### [노션 링크 (각 기능별로 실행 사진이 첨부되어있음)](https://jinhui-portfolio.notion.site/API-90e049d731e44579aa35f96eb38c78a9?pvs=4)
 
 | 완료  | Method | 기능                     | URI                              |
 |:---:|:------:|:-----------------------|:---------------------------------|
