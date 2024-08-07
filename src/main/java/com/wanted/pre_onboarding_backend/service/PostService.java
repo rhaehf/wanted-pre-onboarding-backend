@@ -4,6 +4,8 @@ import com.wanted.pre_onboarding_backend.domain.Company;
 import com.wanted.pre_onboarding_backend.domain.Post;
 import com.wanted.pre_onboarding_backend.dto.PostRequestDto;
 import com.wanted.pre_onboarding_backend.dto.PostResponseDto;
+import com.wanted.pre_onboarding_backend.exception.CustomException;
+import com.wanted.pre_onboarding_backend.exception.ErrorCode;
 import com.wanted.pre_onboarding_backend.repository.CompanyRepository;
 import com.wanted.pre_onboarding_backend.repository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,7 +28,8 @@ public class PostService {
         Long companyId = postRequestDto.getCompanyId();
 
         if (companyId != null) {
-            Company company = companyRepository.findById(companyId).orElseThrow(() -> new EntityNotFoundException("해당 companyId로 회사를 찾을 수 없습니다."));
+//            Company company = companyRepository.findById(companyId).orElseThrow(() -> new EntityNotFoundException("해당 companyId로 회사를 찾을 수 없습니다."));
+            Company company = companyRepository.findById(companyId).orElseThrow(() -> new CustomException(ErrorCode.ENTITY_NOT_FOUND, "해당 companyId로 회사를 찾을 수 없습니다."));
             Post post = postRepository.save(postRequestDto.toEntity(company));
             return post.getPostId();
         } else {
