@@ -2,6 +2,7 @@ package com.wanted.pre_onboarding_backend.controller;
 
 import com.wanted.pre_onboarding_backend.dto.PostRequestDto;
 import com.wanted.pre_onboarding_backend.dto.PostResponseDto;
+import com.wanted.pre_onboarding_backend.dto.SuccessResponse;
 import com.wanted.pre_onboarding_backend.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class PostController {
         // body에 등록한 채용공고의 id를 담아 반환함
         Map<String, Long> response = new HashMap<>();
         response.put("postId", postId);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.ok(new SuccessResponse<>(response));
     }
 
     // 2. 채용공고 수정
