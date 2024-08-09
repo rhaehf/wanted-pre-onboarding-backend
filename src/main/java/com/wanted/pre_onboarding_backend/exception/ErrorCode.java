@@ -22,8 +22,9 @@ public enum ErrorCode {
     // 403 FORBIDDEN : 인증되지 않은 상태에서 인증에 필요한 리소스 접근
 
     // 404 NOT_FOUND : Resource 를 찾을 수 없음
-    POSTS_NOT_FOUND(HttpStatus.NOT_FOUND, "게시글 정보를 찾을 수 없습니다."),
-    ENTITY_NOT_FOUND(HttpStatus.NOT_FOUND, "JPA 관련 엔티티를 찾을 수 없습니다."),
+    ENTITY_NOT_FOUND(HttpStatus.NOT_FOUND, "JPA 관련 - 엔티티를 찾을 수 없습니다."),
+    COMPANY_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 companyId로 회사를 찾을 수 없습니다."),
+    POSTS_NOT_FOUND(HttpStatus.NOT_FOUND, "채용공고를 찾을 수 없습니다."),
 
     // 405 METHOD_NOT_ALLOWED: 허용되지 않은 Request Method 호출
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "허용되지 않은 메서드입니다."),

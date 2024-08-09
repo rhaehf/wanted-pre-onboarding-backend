@@ -27,14 +27,14 @@ public class PostService {
     public Long save(PostRequestDto postRequestDto) {
         Long companyId = postRequestDto.getCompanyId();
 
-        if (companyId != null) {
-//            Company company = companyRepository.findById(companyId).orElseThrow(() -> new EntityNotFoundException("해당 companyId로 회사를 찾을 수 없습니다."));
-            Company company = companyRepository.findById(companyId).orElseThrow(() -> new CustomException(ErrorCode.ENTITY_NOT_FOUND, "해당 companyId로 회사를 찾을 수 없습니다."));
-            Post post = postRepository.save(postRequestDto.toEntity(company));
-            return post.getPostId();
-        } else {
-            throw new IllegalStateException("입력한 데이터가 누락되어 채용공고를 등록할 수 없습니다.");
+        if (companyId == null) {
+            throw new CustomException(ErrorCode.INVALID_INPUT_VALUE, "companyId가 누락되어 채용공고를 등록할 수 없습니다.");
         }
+
+//        Company company = companyRepository.findById(companyId).orElseThrow(() -> new EntityNotFoundException("해당 companyId로 회사를 찾을 수 없습니다."));
+        Company company = companyRepository.findById(companyId).orElseThrow(() -> new CustomException(ErrorCode.COMPANY_NOT_FOUND));
+        Post post = postRepository.save(postRequestDto.toEntity(company));
+        return post.getPostId();
     }
 
     // 2. 채용공고 수정
