@@ -98,4 +98,25 @@ public class PostServiceSaveTest {
                 .hasMessageContaining("companyId가 누락되어 채용공고를 등록할 수 없습니다.") // 예외 메시지에 특정 텍스트가 포함되어야 한다.
                 .hasFieldOrPropertyWithValue("errorCode", ErrorCode.INVALID_INPUT_VALUE); // 예외의 errorCode가 INVALID_INPUT_VALUE여야 한다.
     }
+
+    @Test
+    @DisplayName("1-2. 존재하지 않는 companyId를 사용할 때")
+    void savePosts_whenCompanyNotFound() {
+        // given
+        // 존재하지 않는 companyId를 설정하여 PostRequestDto를 생성
+        Long companyId = 4L;
+        PostRequestDto postRequestDto = new PostRequestDto();
+        postRequestDto.setCompanyId(companyId);
+
+        // companyRepository의 findById 메서드가 빈 Optional을 반환하도록 모킹
+        Mockito.when(companyRepository.findById(companyId))
+                .thenReturn(Optional.empty());
+
+        // when & then
+        // companyId는 유효하지만 해당 회사는 존재하지 않는다.
+        assertThatThrownBy(() -> postService.save(postRequestDto))
+                .isInstanceOf(CustomException.class)
+                .hasMessageContaining("해당 companyId로 회사를 찾을 수 없습니다.")
+                .hasFieldOrPropertyWithValue("errorCode", ErrorCode.COMPANY_NOT_FOUND);
+    }
 }
