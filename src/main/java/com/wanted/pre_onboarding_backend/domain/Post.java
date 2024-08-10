@@ -34,7 +34,8 @@ public class Post {
     private String skill; // 사용기술
 
     @Builder
-    public Post(Company company, String position, int signingBonus, String content, String skill) {
+    public Post(Long postId, Company company, String position, int signingBonus, String content, String skill) {
+        this.postId = postId;
         this.company = company;
         this.position = position;
         this.signingBonus = signingBonus;
