@@ -3,6 +3,8 @@ package com.wanted.pre_onboarding_backend.service;
 import com.wanted.pre_onboarding_backend.domain.Company;
 import com.wanted.pre_onboarding_backend.domain.Post;
 import com.wanted.pre_onboarding_backend.dto.PostRequestDto;
+import com.wanted.pre_onboarding_backend.exception.CustomException;
+import com.wanted.pre_onboarding_backend.exception.ErrorCode;
 import com.wanted.pre_onboarding_backend.repository.CompanyRepository;
 import com.wanted.pre_onboarding_backend.repository.PostRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @Transactional
@@ -79,5 +82,20 @@ public class PostServiceSaveTest {
         // then
         // 반환된 savedPostId가 1L과 동일한지 확인
         assertThat(savedPostId).isEqualTo(1L);
+    }
+
+    @Test
+    @DisplayName("1-1. companyId를 입력하지 않고 데이터를 넣을 때")
+    void savePosts_whenCompanyIdIsNull() {
+        // given
+        PostRequestDto postRequestDto = new PostRequestDto();
+        postRequestDto.setCompanyId(null);
+
+        // when & then
+        // postService.save 메서드를 호출할 때, companyId가 null인 경우 CustomException이 발생하는지 확인
+        assertThatThrownBy(() -> postService.save(postRequestDto))
+                .isInstanceOf(CustomException.class) // CustomException이 발생해야 한다.
+                .hasMessageContaining("companyId가 누락되어 채용공고를 등록할 수 없습니다.") // 예외 메시지에 특정 텍스트가 포함되어야 한다.
+                .hasFieldOrPropertyWithValue("errorCode", ErrorCode.INVALID_INPUT_VALUE); // 예외의 errorCode가 INVALID_INPUT_VALUE여야 한다.
     }
 }
