@@ -25,6 +25,7 @@ public enum ErrorCode {
     ENTITY_NOT_FOUND(HttpStatus.NOT_FOUND, "JPA 관련 - 엔티티를 찾을 수 없습니다."),
     COMPANY_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 companyId로 회사를 찾을 수 없습니다."),
     POSTS_NOT_FOUND(HttpStatus.NOT_FOUND, "채용공고를 찾을 수 없습니다."),
+    RESOURCE_OR_HANDLER_NOT_FOUND(HttpStatus.NOT_FOUND, "1. 경로 변수가 잘못되었거나 누락되었습니다. 2.경로 자체가 잘못 되었거나 매핑된 경로가 존재하지 않습니다."),
 
     // 405 METHOD_NOT_ALLOWED: 허용되지 않은 Request Method 호출
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "허용되지 않은 메서드입니다."),

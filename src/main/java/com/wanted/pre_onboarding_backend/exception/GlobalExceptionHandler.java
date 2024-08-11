@@ -12,6 +12,8 @@ import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
 @Slf4j
@@ -61,6 +63,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(ErrorCode.METHOD_ARGUMENT_TYPE_MISMATCH));
+    }
+
+    // 1. 경로 변수가 잘못되었거나 누락되었을 때  2.경로 자체가 잘못 되었거나 매핑된 경로가 존재하지 않을 때
+    @ExceptionHandler({NoResourceFoundException.class, NoHandlerFoundException.class})
+    protected ResponseEntity<ErrorResponse> handleNoResourceOrHandlerFoundException(NoResourceFoundException e) {
+        log.error("handleNoResourceOrHandlerFoundException throw ServletException: {}", e.getMessage(), e);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(ErrorCode.RESOURCE_OR_HANDLER_NOT_FOUND));
     }
 
     // JPA 관련 예외 처리
