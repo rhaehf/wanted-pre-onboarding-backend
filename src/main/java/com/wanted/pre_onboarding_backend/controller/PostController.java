@@ -34,9 +34,14 @@ public class PostController {
 
     // 2. 채용공고 수정
     @PatchMapping("/posts/{id}")
-    public ResponseEntity updatePosts(@PathVariable(name = "id") Long postId, @RequestBody PostRequestDto dto) {
-        // body에 등록한 채용공고의 id를 담아 반환함
-        return ResponseEntity.status(HttpStatus.OK).body(postService.update(postId, dto));
+    // id를 입력하지 않는다고해서 null로 설정되지 않고, 에러가 발생함
+    public ResponseEntity updatePosts(@PathVariable(name = "id") Long id, @RequestBody PostRequestDto dto) {
+        Long postId = postService.update(id, dto);
+
+        // body에 수정한 채용공고의 id를 담아 반환함
+        Map<String, Long> response = new HashMap<>();
+        response.put("postId", postId);
+        return ResponseEntity.ok(new SuccessResponse<>(response));
     }
 
     // 3. 채용공고 삭제
