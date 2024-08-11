@@ -39,10 +39,11 @@ public class PostService {
 
     // 2. 채용공고 수정
     @Transactional
-    public Long update(Long postId, PostRequestDto dto) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("해당 채용공고를 찾을 수 없습니다."));
+    public Long update(Long id, PostRequestDto dto) {
+//        Post post = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("해당 채용공고를 찾을 수 없습니다."));
+        Post post = postRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
         post.update(dto.getPosition(), dto.getSigningBonus(), dto.getContent(), dto.getSkill());
-        return postId;
+        return id;
     }
 
     // 3. 채용공고 삭제
