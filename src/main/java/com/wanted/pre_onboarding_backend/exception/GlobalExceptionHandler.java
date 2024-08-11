@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -41,6 +42,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(ErrorCode.INVALID_INPUT_VALUE));
+    }
+
+    // 요청 경로에 누락된 파라미터가 있을 때
+    @ExceptionHandler(MissingPathVariableException.class)
+    protected ResponseEntity<ErrorResponse> handleMissingPathVariableException(MissingPathVariableException e) {
+        log.error("handleMissingPathVariableException throw MissingPathVariableException: {}", e.getMessage(), e);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(ErrorCode.MISSING_PATH_VARIABLE));
     }
 
     // JPA 관련 예외 처리

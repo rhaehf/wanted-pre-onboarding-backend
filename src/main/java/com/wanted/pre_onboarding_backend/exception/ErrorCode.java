@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-import static org.springframework.http.HttpStatus.*;
-
 @AllArgsConstructor
 @Getter
 public enum ErrorCode {
@@ -16,6 +14,7 @@ public enum ErrorCode {
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "클라이언트의 입력 값을 확인해주세요."),
     // @RequestBody의 입력 값이 유효하지 않을 때
     INVALID_PARAMETER(HttpStatus.BAD_REQUEST, "파라미터 값을 확인해주세요."),
+    MISSING_PATH_VARIABLE(HttpStatus.BAD_REQUEST, "요청 경로에 누락된 파라미터가 있습니다."),
 
     // 401 UNAUTHORIZED : 인증되지 않은 사용자
 
