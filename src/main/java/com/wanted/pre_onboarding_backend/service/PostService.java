@@ -25,7 +25,6 @@ public class PostService {
     @Transactional
     public Long save(PostRequestDto postRequestDto) {
         Long companyId = postRequestDto.getCompanyId();
-
         if (companyId == null) {
             throw new CustomException(ErrorCode.INVALID_INPUT_VALUE, "companyId가 누락되어 채용공고를 등록할 수 없습니다.");
         }
@@ -69,6 +68,11 @@ public class PostService {
     // 4-2. 채용공고 검색
     @Transactional
     public List<PostResponseDto> searchByPosition(String keyword) {
+        // 검색어가 없을 때
+        if (keyword == null || keyword.trim().isEmpty()) {
+            throw new CustomException(ErrorCode.INVALID_INPUT_VALUE, "검색어를 입력하지 않았습니다.");
+        }
+
         List<Post> list = postRepository.findByPositionContaining(keyword);
         return list.stream().map(PostResponseDto::new).collect(Collectors.toList());
     }
