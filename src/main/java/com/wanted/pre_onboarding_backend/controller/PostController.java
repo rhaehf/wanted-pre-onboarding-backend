@@ -55,8 +55,15 @@ public class PostController {
 
     // 4-1. 채용공고 목록 전체 조회
     @GetMapping("/posts")
-    public ResponseEntity<List<PostResponseDto>> findAllPosts() {
-        return ResponseEntity.status(HttpStatus.OK).body(postService.findAll());
+    public ResponseEntity findAllPosts() {
+        List<PostResponseDto> findAllList = postService.findAll();
+
+        // DB에 등록된 채용공고가 없는 경우 NO_CONTENT(204) 응답 반환
+        if (findAllList.isEmpty()) {
+            // 204 No Content 응답은 보통 바디가 없을 때 사용됨
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(new SuccessResponse<>(findAllList));
     }
 
     // 4-2. 채용공고 검색 (채용포지션으로)
