@@ -8,7 +8,6 @@ import com.wanted.pre_onboarding_backend.exception.CustomException;
 import com.wanted.pre_onboarding_backend.exception.ErrorCode;
 import com.wanted.pre_onboarding_backend.repository.CompanyRepository;
 import com.wanted.pre_onboarding_backend.repository.PostRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,9 +47,11 @@ public class PostService {
 
     // 3. 채용공고 삭제
     @Transactional
-    public void delete(Long postId) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("해당 채용공고를 찾을 수 없습니다."));
+    public Long delete(Long id) {
+//        Post post = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("해당 채용공고를 찾을 수 없습니다."));
+        Post post = postRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
         postRepository.delete(post);
+        return id;
     }
 
     // 4-1. 채용공고 목록 전체 조회
