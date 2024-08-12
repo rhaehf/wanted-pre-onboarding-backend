@@ -10,11 +10,13 @@ public enum ErrorCode {
 
     // 400 BAD_REQUEST : 잘못된 요청
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
-    // @PathVariable, @RequestParam 가 잘못되었을 때
+    // 클라이언트의 입력 값에 대한 일반적인 오류 (@PathVariable, @RequestParam가 잘못되었을 때)
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "클라이언트의 입력 값을 확인해주세요."),
     // @RequestBody의 입력 값이 유효하지 않을 때
     INVALID_PARAMETER(HttpStatus.BAD_REQUEST, "파라미터 값을 확인해주세요."),
+    // 경로 파라미터의 누락 또는 형식 오류
     MISSING_PATH_VARIABLE(HttpStatus.BAD_REQUEST, "요청 경로에 누락된 파라미터가 있습니다."),
+    // 경로 파라미터의 누락 또는 형식 오류
     METHOD_ARGUMENT_TYPE_MISMATCH(HttpStatus.BAD_REQUEST, "요청 경로에 입력한 파라미터 형식이 올바르지 않습니다."),
 
     // 401 UNAUTHORIZED : 인증되지 않은 사용자
