@@ -57,8 +57,13 @@ public class PostService {
     // 4-1. 채용공고 목록 전체 조회
     @Transactional
     public List<PostResponseDto> findAll() {
-        List<Post> list = postRepository.findAll();
-        return list.stream().map(PostResponseDto::new).collect(Collectors.toList());
+        try {
+            List<Post> list = postRepository.findAll();
+            return list.stream().map(PostResponseDto::new).collect(Collectors.toList());
+        } catch (Exception e) {
+            // 예상치 못한 오류를 처리하기 위한 CustomException
+            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // 4-2. 채용공고 검색
