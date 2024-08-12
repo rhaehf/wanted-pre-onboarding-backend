@@ -79,7 +79,10 @@ public class PostController {
                 return ResponseEntity.noContent().build();
             }
             // 정상적인 경우
-            return ResponseEntity.ok(new SuccessResponse<>(searchList));
+            Map<String, Object> response = new HashMap<>();
+            response.put("count", searchList.size());
+            response.put("data", searchList);
+            return ResponseEntity.ok(new SuccessResponse<>(response));
         } catch (CustomException e) {
             // 비즈니스 로직이나 사용자 입력에 대한 오류를 처리하기 위해서
             return ResponseEntity.badRequest()
