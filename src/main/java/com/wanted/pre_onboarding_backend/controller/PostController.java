@@ -46,9 +46,11 @@ public class PostController {
 
     // 3. 채용공고 삭제
     @DeleteMapping("/posts/{id}")
-    public ResponseEntity deletePosts(@PathVariable(name = "id") Long postId) {
-        postService.delete(postId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity deletePosts(@PathVariable(name = "id") Long id) {
+        Long postId = postService.delete(id);
+        Map<String, Long> response = new HashMap<>();
+        response.put("postId", postId);
+        return ResponseEntity.ok(new SuccessResponse<>(response));
     }
 
     // 4-1. 채용공고 목록 전체 조회
