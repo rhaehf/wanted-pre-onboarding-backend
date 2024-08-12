@@ -3,10 +3,12 @@ package com.wanted.pre_onboarding_backend.controller;
 import com.wanted.pre_onboarding_backend.dto.PostRequestDto;
 import com.wanted.pre_onboarding_backend.dto.PostResponseDto;
 import com.wanted.pre_onboarding_backend.dto.SuccessResponse;
+import com.wanted.pre_onboarding_backend.exception.CustomException;
+import com.wanted.pre_onboarding_backend.exception.ErrorCode;
+import com.wanted.pre_onboarding_backend.exception.ErrorResponse;
 import com.wanted.pre_onboarding_backend.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,7 +70,24 @@ public class PostController {
 
     // 4-2. 채용공고 검색 (채용포지션으로)
     @GetMapping("/posts/search")
-    public ResponseEntity<List<PostResponseDto>> searchPosts(@RequestParam(name = "position") String keyword) {
-        return ResponseEntity.status(HttpStatus.OK).body(postService.searchByPosition(keyword));
+    public ResponseEntity searchPosts(@RequestParam(name = "position") String keyword) {
+        try {
+            List<PostResponseDto> searchList = postService.searchByPosition(keyword);
+
+            // 검색 결과가 없는 경우 NO_CONTENT(204) 응답 반환
+            if (searchList.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            // 정상적인 경우
+            return ResponseEntity.ok(new SuccessResponse<>(searchList));
+        } catch (CustomException e) {
+            // 비즈니스 로직이나 사용자 입력에 대한 오류를 처리하기 위해서
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse(e.getErrorCode(), e.getMessage()));
+        } catch (Exception e) {
+            // 예기치 못한 시스템 오류나 런타임 예외를 처리하기 위해서 (데이터베이스 연결 실패, null 포인터 예외 등)
+            return ResponseEntity.internalServerError()
+                    .body(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR));
+        }
     }
 }
