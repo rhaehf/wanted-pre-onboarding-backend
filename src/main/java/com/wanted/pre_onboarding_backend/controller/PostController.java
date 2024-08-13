@@ -93,4 +93,28 @@ public class PostController {
                     .body(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR));
         }
     }
+
+    // 5. 채용공고 상세 페이지 확인
+    @GetMapping("/posts/detail")
+    public ResponseEntity detailPosts(@RequestParam(name = "postId") Long postId) {
+        try {
+            // postId가 null이거나 유효하지 않은 경우를 체크
+            if (postId == null || postId <= 0) {
+                throw new CustomException(ErrorCode.INVALID_INPUT_VALUE, "유효하지 않은 채용공고 ID입니다.");
+            }
+            // 정상적인 경우
+            PostResponseDto post = postService.findDetail(postId);
+            return ResponseEntity.ok(new SuccessResponse<>(post));
+
+        } catch (CustomException e) {
+            // 비즈니스 로직에서 발생하는 예외를 처리
+            return ResponseEntity.status(e.getErrorCode().getStatus())
+                    .body(new ErrorResponse(e.getErrorCode(), e.getMessage()));
+
+        } catch (Exception e) {
+            // 예기치 못한 예외를 처리
+            return ResponseEntity.internalServerError()
+                    .body(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR));
+        }
+    }
 }

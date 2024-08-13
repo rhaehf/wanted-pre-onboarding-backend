@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,5 +76,19 @@ public class PostService {
 
         List<Post> list = postRepository.findByPositionContaining(keyword);
         return list.stream().map(PostResponseDto::new).collect(Collectors.toList());
+    }
+
+    // 5. 채용공고 상세 페이지 확인
+    @Transactional
+    public PostResponseDto findDetail(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+        Long companyId = post.getCompany().getCompanyId();
+
+        List<Long> postIdList = postRepository.findPostIdsByCompanyId(companyId);
+        // postIdList가 null일 경우 빈 리스트로 초기화
+        if (postIdList == null) {
+            postIdList = new ArrayList<>();
+        }
+        return new PostResponseDto(post, postIdList);
     }
 }
