@@ -60,7 +60,7 @@
 |  -  | 6. 채용공고 지원             |  `POST`  | -                                                             |
 
 ## 6. 프로젝트 특징
-### Exception Handling [📁](com/wanted/pre_onboarding_backend/exception)
+### Exception Handling [📁](https://github.com/rhaehf/wanted-pre-onboarding-backend/blob/3fb654b51c5dd7a11f2ca7e982769dd56ca494f1/src/main/java/com/wanted/pre_onboarding_backend/exception)
 다양한 예외 상황을 클라이언트에게 체계적으로 응답하기 위해서 구현했습니다.
 - **ErrorCode** : enum 타입으로 예외 코드를 HttpStatus와 에러 메시지로 정의하고, 상황 별로 에러 코드를 만들었습니다.
 - **CustomException** : RuntimeException을 상속받으며 ErrorCode에서 정의한 예외 코드를 사용하고, 새로운 에러 메시지도 적용할 수 있습니다.
